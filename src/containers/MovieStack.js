@@ -10,11 +10,6 @@ const MovieStack = () => {
     return (
         <Stack.Navigator
           initialRouteName="Movie"
-        //   screenOptions={{
-        //     headerStyle: { backgroundColor: '#42f44b' },
-        //     headerTintColor: '#fff',
-        //     headerTitleStyle: { fontWeight: 'bold' }
-        //   }}
           >
           <Stack.Screen
             name="Movie"

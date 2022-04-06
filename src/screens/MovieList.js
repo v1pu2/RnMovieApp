@@ -17,14 +17,14 @@ const MovieList = props => {
   };
 
   return (
-    // <SafeAreaView style={styles.root}>
+    <SafeAreaView style={styles.root}>
+      <View style={{height: 70}}>
+        <Text>filter</Text>
+      </View>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? '#FFC30B' : '#FFC30B',
-          }}>
+        <View>
           <Text
             style={{color: isDarkMode ? '#ffffff' : '#000000'}}
             onPress={() => props.navigation.navigate('Details')}>
@@ -32,7 +32,7 @@ const MovieList = props => {
           </Text>
         </View>
       </ScrollView>
-    // </SafeAreaView>
+    </SafeAreaView>
   );
 };
 
@@ -41,10 +41,10 @@ const styles = StyleSheet.create({
     marginTop: 32,
     paddingHorizontal: 24,
   },
-  root:{
-      flex:1,
-      backgroundColor:'red',
-  }
+  root: {
+    flex: 1,
+    backgroundColor: '#FFD300',
+  },
 });
 
 export default MovieList;
