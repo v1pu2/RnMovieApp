@@ -9,9 +9,9 @@ import {
   View,
 } from 'react-native';
 
-const MovieDetail = () => {
+const MovieDetail = props => {
   const isDarkMode = useColorScheme() === 'dark';
-
+  console.log('in detal', props?.route?.params);
   const backgroundStyle = {
     backgroundColor: isDarkMode ? '#000000' : '#ffffff',
   };
