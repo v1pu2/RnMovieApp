@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {
   SafeAreaView,
@@ -7,19 +7,34 @@ import {
   Text,
   useColorScheme,
   View,
+  TextInput,
 } from 'react-native';
 
 const MovieList = props => {
   const isDarkMode = useColorScheme() === 'dark';
-
+  const [searchText, setSearchText] = useState('');
   const backgroundStyle = {
     backgroundColor: isDarkMode ? '#FFC30B' : '#FFC30B',
   };
 
   return (
     <SafeAreaView style={styles.root}>
-      <View style={{height: 70}}>
-        <Text>filter</Text>
+      <View
+        style={{height: 70, justifyContent: 'center', alignItems: 'center'}}>
+        <TextInput
+          placeholder="Search"
+          placeholderTextColor={'black'}
+          onChangeText={text => setSearchText(text)}
+          style={{
+            fontSize: 16,
+            margin: 10,
+            width: '90%',
+            height: 50,
+            backgroundColor: 'white',
+            borderRadius: 10,
+            color:'black'
+          }}
+        />
       </View>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"

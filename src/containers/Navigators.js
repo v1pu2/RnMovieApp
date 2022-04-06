@@ -4,9 +4,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import TopRankStack from './TopRankStack';
 import MovieStack from './MovieStack';
-import
- MaterialCommunityIcons
-from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons';
+// import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 const Tab = createBottomTabNavigator();
 
 const Navigators = () => {
@@ -34,9 +33,9 @@ const Navigators = () => {
           component={MovieStack}
           options={{
             tabBarLabel: 'Now Playing',
-            tabBarIcon: ({color, size}) => (
-              <MaterialCommunityIcons name="home" color={'red'} size={size} />
-            ),
+            // tabBarIcon: ({color, size}) => (
+            //   <MaterialCommunityIcons name="home" color={'red'} size={size} />
+            // ),
           }}
         />
         <Tab.Screen
@@ -44,13 +43,6 @@ const Navigators = () => {
           component={TopRankStack}
           options={{
             tabBarLabel: 'Top Rated',
-            tabBarIcon: ({color, size}) => (
-              <MaterialCommunityIcons
-                name="settings"
-                color={color}
-                size={size}
-              />
-            ),
           }}
         />
       </Tab.Navigator>
