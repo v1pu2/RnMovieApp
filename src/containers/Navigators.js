@@ -1,44 +1,53 @@
 import React from 'react';
-
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {Platform} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import TopRankStack from './TopRankStack';
+import MovieStack from './MovieStack';
+import MaterialCommunityIcons from 'react-native-vector-icons';
+// import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+const Tab = createBottomTabNavigator();
 
 const Navigators = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? '#000000' : '#ffffff',
-  };
-
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? '#000000' : '#ffffff',
-          }}>
-          <Text style={{color: isDarkMode ? '#ffffff' : '#000000'}}>
-            this is app navigators
-          </Text>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Tab.Navigator
+        initialRouteName="Movie"
+        screenOptions={({route}) => ({
+          headerShown: false,
+          tabBarStyle: {
+            height: 70,
+            paddingTop: Platform?.OS === 'ios' ? 25 : 15,
+            backgroundColor: '#FFD300',
+            position: 'absolute',
+            overflow: 'hidden',
+            borderTopLeftRadius: 30,
+            borderTopRightRadius: 30,
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: 'black',
+        }}>
+        <Tab.Screen
+          name="Movie"
+          component={MovieStack}
+          options={{
+            tabBarLabel: 'Now Playing',
+            // tabBarIcon: ({color, size}) => (
+            //   <MaterialCommunityIcons name="home" color={'red'} size={size} />
+            // ),
+          }}
+        />
+        <Tab.Screen
+          name="Topmovie"
+          component={TopRankStack}
+          options={{
+            tabBarLabel: 'Top Rated',
+          }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-});
 
 export default Navigators;
