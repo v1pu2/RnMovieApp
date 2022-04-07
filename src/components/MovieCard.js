@@ -26,7 +26,11 @@ const MovieCard = props => {
           />
         </View>
         <View style={styles.contentView}>
-          <Text style={styles.title}>{movie?.title}</Text>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={styles.title}>{movie?.title}</Text>
+            <Text style={styles.title} onPress={props.onClickDelete}>X</Text>
+          </View>
+
           <View style={{flex: 1}}>
             <Text
               style={styles.desc}
