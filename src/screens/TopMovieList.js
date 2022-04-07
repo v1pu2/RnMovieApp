@@ -65,15 +65,20 @@ const TopMovieList = props => {
   const onCardClick = item => {
     props.navigation.navigate('Details', {item});
   };
+  const onClickDelete = item => {
+    const newArr = filteredMovies.filter(data => data?.id !== item?.id);
+    setFilteredMovies(newArr);
+    setAllTopMovies(newArr);
+
+  };
   const renderEventItem = item => {
     return (
-      <MovieCard item={item?.item} onPress={() => onCardClick(item?.item)} />
+      <MovieCard item={item?.item} onPress={() => onCardClick(item?.item)}   onClickDelete={() => onClickDelete(item?.item)}/>
     );
   };
   return (
     <SafeAreaView style={styles.root}>
-      <View
-        style={{height: 70, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={styles.headerView}>
         <TextInput
           placeholder="Search"
           autoCapitalize="none"
@@ -82,17 +87,18 @@ const TopMovieList = props => {
           value={searchText}
           placeholderTextColor={'black'}
           onChangeText={queryText => handleSearch(queryText)}
-          style={{
-            fontSize: 16,
-            margin: 10,
-            width: '90%',
-            height: 50,
-            backgroundColor: 'white',
-            borderRadius: 10,
-            color: 'black',
-            padding: 10,
-          }}
+          style={styles.input}
         />
+        {searchText !== '' && (
+          <Text
+            style={styles.txtCancel}
+            onPress={() => {
+              setFilteredMovies(allTopMovies);
+              setSearchText('');
+            }}>
+            Cancel
+          </Text>
+        )}
       </View>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
@@ -114,6 +120,26 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: '#FFD300',
+  },
+  input: {
+    fontSize: 16,
+    margin: 10,
+    flex: 1,
+    height: 50,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    color: 'black',
+    padding: 10,
+  },
+  headerView: {
+    height: 70,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  txtCancel: {
+    paddingRight: 10,
+    fontSize: 14,
   },
 });
 

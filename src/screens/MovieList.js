@@ -11,7 +11,7 @@ import {
   TextInput,
   Alert,
   FlatList,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 import {getMovies} from '../services/ApiService';
 import MovieCard from '../components/MovieCard';
@@ -50,9 +50,19 @@ const MovieList = props => {
   const onCardClick = item => {
     props.navigation.navigate('Details', {item});
   };
+  const onClickDelete = item => {
+    const newArr = filteredMovies.filter(data => data?.id !== item?.id);
+    setFilteredMovies(newArr);
+    setAllMovies(newArr);
+
+  };
   const renderEventItem = item => {
     return (
-      <MovieCard item={item?.item} onPress={() => onCardClick(item?.item)} />
+      <MovieCard
+        item={item?.item}
+        onPress={() => onCardClick(item?.item)}
+        onClickDelete={() => onClickDelete(item?.item)}
+      />
     );
   };
   const handleSearch = text => {
@@ -74,7 +84,12 @@ const MovieList = props => {
   return (
     <SafeAreaView style={styles.root}>
       <View
-        style={{height: 70, justifyContent: 'center', alignItems: 'center'}}>
+        style={{
+          height: 70,
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'row',
+        }}>
         <TextInput
           placeholder="Search"
           autoCapitalize="none"
@@ -83,17 +98,18 @@ const MovieList = props => {
           value={searchText}
           placeholderTextColor={'black'}
           onChangeText={queryText => handleSearch(queryText)}
-          style={{
-            fontSize: 16,
-            margin: 10,
-            width: '90%',
-            height: 50,
-            backgroundColor: 'white',
-            borderRadius: 10,
-            color: 'black',
-            padding: 10,
-          }}
+          style={styles.input}
         />
+        {searchText !== '' && (
+          <Text
+            style={styles.txtCancel}
+            onPress={() => {
+              setFilteredMovies(allMovies);
+              setSearchText('');
+            }}>
+            Cancel
+          </Text>
+        )}
       </View>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
@@ -115,6 +131,20 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: '#FFD300',
+  },
+  input: {
+    fontSize: 16,
+    margin: 10,
+    flex: 1,
+    height: 50,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    color: 'black',
+    padding: 10,
+  },
+  txtCancel: {
+    paddingRight: 10,
+    fontSize: 14,
   },
 });
 
