@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: '#FFD300',
+    paddingBottom:50
   },
   input: {
     fontSize: 16,
