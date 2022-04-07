@@ -8,9 +8,11 @@ import {
   useColorScheme,
   View,
   ImageBackground,
+  TouchableWithoutFeedback,
+  Animated,
+  Easing
 } from 'react-native';
 import moment from 'moment';
-
 
 const MovieDetail = props => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -22,25 +24,52 @@ const MovieDetail = props => {
 
   const imgUrl = baseImage + movie?.backdrop_path;
 
+  const animatedButtonScale = new Animated.Value(1);
+
+  // When button is pressed in, animate the scale to 2
+  const onPressIn = () => {
+    Animated.spring(animatedButtonScale, {
+      toValue: 2,
+      useNativeDriver: true,
+      // easing: Easing.bounce
+    }).start();
+  };
+
+  // When button is pressed out, animate the scale back to 1
+  const onPressOut = () => {
+    Animated.spring(animatedButtonScale, {
+      toValue: 1,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  // The animated style for scaling the button within the Animated.View
+  const animatedScaleStyle = {
+    transform: [{scale: animatedButtonScale}],
+  };
 
   return (
     <ImageBackground
       source={{uri: `${imgUrl}`}}
       resizeMode="cover"
       style={styles.image}>
-      <View style={styles.textView}>
-        <Text style={styles.textTitle}>{movie?.title}</Text>
-        <Text style={styles.txtPercentage}>
-          {moment(movie?.release_date).format('MMMM DD, YYYY')}
-        </Text>
-        <View style={styles.rowView}>
-          <Text style={[styles.txtPercentage, {paddingRight: 60}]}>
-            {movie?.vote_average}%
+      <TouchableWithoutFeedback
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}>
+        <Animated.View style={[styles.textView, animatedScaleStyle]}>
+          <Text style={styles.textTitle}>{movie?.title}</Text>
+          <Text style={styles.txtPercentage}>
+            {moment(movie?.release_date).format('MMMM DD, YYYY')}
           </Text>
-          <Text style={styles.txtPercentage}>2 hr 30 min</Text>
-        </View>
-        <Text style={styles.txtPercentage}>{movie?.overview}</Text>
-      </View>
+          <View style={styles.rowView}>
+            <Text style={[styles.txtPercentage, {paddingRight: 60}]}>
+              {movie?.vote_average}%
+            </Text>
+            <Text style={styles.txtPercentage}>2 hr 30 min</Text>
+          </View>
+          <Text style={styles.txtPercentage}>{movie?.overview}</Text>
+        </Animated.View>
+      </TouchableWithoutFeedback>
     </ImageBackground>
   );
 };
