@@ -8,22 +8,21 @@ const Stack = createNativeStackNavigator();
 
 const TopRankStack = () => {
   return (
-    <Stack.Navigator
-      initialRouteName="TopRank"
-      screenOptions={{
-        headerStyle: {backgroundColor: '#42f44b'},
-        headerTintColor: '#fff',
-        headerTitleStyle: {fontWeight: 'bold'},
-      }}>
+    <Stack.Navigator initialRouteName="TopRank">
       <Stack.Screen
         name="TopMovie"
         component={TopMovieList}
-        options={{title: 'Movie Page'}}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="DetailsTopMovie"
         component={MovieDetail}
-        options={{title: 'Details Page'}}
+        options={{
+          title: '',
+          headerStyle: {
+            backgroundColor: '#FFD300',
+          },
+        }}
       />
     </Stack.Navigator>
   );

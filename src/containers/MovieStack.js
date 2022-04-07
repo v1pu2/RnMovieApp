@@ -7,19 +7,24 @@ import MovieList from '../screens/MovieList';
 const Stack = createNativeStackNavigator();
 
 const MovieStack = () => {
-    return (
-        <Stack.Navigator
-          initialRouteName="Movie"
-          >
-          <Stack.Screen
-            name="Movie"
-            component={MovieList}
-            options={{headerShown: false}}/>
-          <Stack.Screen
-            name="Details"
-            component={MovieDetail}
-            options={{ title: 'Details Page' }} />
-        </Stack.Navigator>
-    );
+  return (
+    <Stack.Navigator initialRouteName="Movie">
+      <Stack.Screen
+        name="Movie"
+        component={MovieList}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Details"
+        component={MovieDetail}
+        options={{
+          title: '',
+          headerStyle: {
+            backgroundColor: '#FFD300',
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
 };
 export default MovieStack;
