@@ -11,7 +11,6 @@ import {
   Alert,
   FlatList,
 } from 'react-native';
-// import {getMovies} from '../services/ApiService';
 import MovieCard from '../components/MovieCard';
 import {getTopRanked} from '../services/ApiService';
 
@@ -20,6 +19,7 @@ const TopMovieList = props => {
   const [searchText, setSearchText] = useState('');
   const [allTopMovies, setAllTopMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [filteredMovies, setFilteredMovies] = useState([]);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? '#FFC30B' : '#FFC30B',
@@ -36,10 +36,27 @@ const TopMovieList = props => {
         setIsLoading(false);
         console.log(response?.data?.results?.length);
         setAllTopMovies(response?.data?.results);
+        setFilteredMovies(response?.data?.results);
       }
     } catch (error) {
       console.log('error', error);
       Alert.alert('No API Response');
+    }
+  };
+  const handleSearch = text => {
+    if (text) {
+      const filteredData = allTopMovies.filter(function (item) {
+        const itemData = item.title
+          ? item.title.toUpperCase()
+          : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredMovies(filteredData);
+      setSearchText(text);
+    } else {
+      setFilteredMovies(allTopMovies);
+      setSearchText(text);
     }
   };
   useEffect(() => {
@@ -59,8 +76,12 @@ const TopMovieList = props => {
         style={{height: 70, justifyContent: 'center', alignItems: 'center'}}>
         <TextInput
           placeholder="Search"
+          autoCapitalize="none"
+          autoCorrect={false}
+          clearButtonMode="always"
+          value={searchText}
           placeholderTextColor={'black'}
-          onChangeText={text => setSearchText(text)}
+          onChangeText={queryText => handleSearch(queryText)}
           style={{
             fontSize: 16,
             margin: 10,
@@ -79,7 +100,7 @@ const TopMovieList = props => {
         <View>
           <FlatList
             pagingEnabled={true}
-            data={allTopMovies}
+            data={filteredMovies}
             renderItem={item => renderEventItem(item)}
             keyExtractor={item => item.id}
           />

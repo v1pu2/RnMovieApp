@@ -11,6 +11,7 @@ import {
   TextInput,
   Alert,
   FlatList,
+  ActivityIndicator
 } from 'react-native';
 import {getMovies} from '../services/ApiService';
 import MovieCard from '../components/MovieCard';
@@ -19,6 +20,7 @@ const MovieList = props => {
   const isDarkMode = useColorScheme() === 'dark';
   const [searchText, setSearchText] = useState('');
   const [allMovies, setAllMovies] = useState([]);
+  const [filteredMovies, setFilteredMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const backgroundStyle = {
@@ -35,6 +37,7 @@ const MovieList = props => {
         setIsLoading(false);
         console.log(response?.data?.results?.length);
         setAllMovies(response?.data?.results);
+        setFilteredMovies(response?.data?.results);
       }
     } catch (error) {
       console.log('error', error);
@@ -52,14 +55,34 @@ const MovieList = props => {
       <MovieCard item={item?.item} onPress={() => onCardClick(item?.item)} />
     );
   };
+  const handleSearch = text => {
+    if (text) {
+      const filteredData = allMovies.filter(function (item) {
+        const itemData = item.title
+          ? item.title.toUpperCase()
+          : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredMovies(filteredData);
+      setSearchText(text);
+    } else {
+      setFilteredMovies(allMovies);
+      setSearchText(text);
+    }
+  };
   return (
     <SafeAreaView style={styles.root}>
       <View
         style={{height: 70, justifyContent: 'center', alignItems: 'center'}}>
         <TextInput
           placeholder="Search"
+          autoCapitalize="none"
+          autoCorrect={false}
+          clearButtonMode="always"
+          value={searchText}
           placeholderTextColor={'black'}
-          onChangeText={text => setSearchText(text)}
+          onChangeText={queryText => handleSearch(queryText)}
           style={{
             fontSize: 16,
             margin: 10,
@@ -78,7 +101,7 @@ const MovieList = props => {
         <View>
           <FlatList
             pagingEnabled={true}
-            data={allMovies}
+            data={filteredMovies}
             renderItem={item => renderEventItem(item)}
             keyExtractor={item => item.id}
           />
