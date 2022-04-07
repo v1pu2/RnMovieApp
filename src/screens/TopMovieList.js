@@ -107,6 +107,8 @@ const TopMovieList = props => {
         data={filteredMovies}
         renderItem={item => renderEventItem(item)}
         keyExtractor={item => item.id}
+        legacyImplementation={false}
+        showsVerticalScrollIndicator={false}
       />
     </SafeAreaView>
   );
