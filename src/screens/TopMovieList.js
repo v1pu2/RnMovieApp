@@ -34,12 +34,10 @@ const TopMovieList = props => {
         response?.data?.results.length > 0
       ) {
         setIsLoading(false);
-        console.log(response?.data?.results?.length);
         setAllTopMovies(response?.data?.results);
         setFilteredMovies(response?.data?.results);
       }
     } catch (error) {
-      console.log('error', error);
       Alert.alert('No API Response');
     }
   };
@@ -69,11 +67,14 @@ const TopMovieList = props => {
     const newArr = filteredMovies.filter(data => data?.id !== item?.id);
     setFilteredMovies(newArr);
     setAllTopMovies(newArr);
-
   };
   const renderEventItem = item => {
     return (
-      <MovieCard item={item?.item} onPress={() => onCardClick(item?.item)}   onClickDelete={() => onClickDelete(item?.item)}/>
+      <MovieCard
+        item={item?.item}
+        onPress={() => onCardClick(item?.item)}
+        onClickDelete={() => onClickDelete(item?.item)}
+      />
     );
   };
   return (
@@ -100,18 +101,13 @@ const TopMovieList = props => {
           </Text>
         )}
       </View>
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View>
-          <FlatList
-            pagingEnabled={true}
-            data={filteredMovies}
-            renderItem={item => renderEventItem(item)}
-            keyExtractor={item => item.id}
-          />
-        </View>
-      </ScrollView>
+
+      <FlatList
+        pagingEnabled={true}
+        data={filteredMovies}
+        renderItem={item => renderEventItem(item)}
+        keyExtractor={item => item.id}
+      />
     </SafeAreaView>
   );
 };

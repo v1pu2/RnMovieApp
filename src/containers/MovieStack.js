@@ -8,9 +8,9 @@ const Stack = createNativeStackNavigator();
 
 const MovieStack = () => {
   return (
-    <Stack.Navigator initialRouteName="Movie">
+    <Stack.Navigator initialRouteName="MovieList">
       <Stack.Screen
-        name="Movie"
+        name="MovieList"
         component={MovieList}
         options={{headerShown: false}}
       />

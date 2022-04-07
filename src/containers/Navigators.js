@@ -17,22 +17,24 @@ const Navigators = () => {
           headerShown: false,
           tabBarStyle: {
             height: 70,
-            paddingTop: Platform?.OS === 'ios' ? 25 : 15,
+            paddingTop: Platform?.OS === 'ios' ? 15 : 10,
+            paddingBottom:5,
             backgroundColor: '#FFD300',
             position: 'absolute',
             overflow: 'hidden',
             borderTopLeftRadius: 30,
             borderTopRightRadius: 30,
           },
-        })}
-        tabBarOptions={{
           activeTintColor: 'black',
-        }}>
+        })}>
         <Tab.Screen
           name="Movie"
           component={MovieStack}
           options={{
             tabBarLabel: 'Now Playing',
+            tabBarLabelStyle: {
+              fontSize: 16,
+            },
             // tabBarIcon: ({color, size}) => (
             //   <MaterialCommunityIcons name="home" color={'red'} size={size} />
             // ),
@@ -43,6 +45,9 @@ const Navigators = () => {
           component={TopRankStack}
           options={{
             tabBarLabel: 'Top Rated',
+            tabBarLabelStyle: {
+              fontSize: 16,
+            },
           }}
         />
       </Tab.Navigator>
