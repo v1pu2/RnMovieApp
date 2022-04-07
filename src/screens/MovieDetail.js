@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import moment from 'moment';
 
+
 const MovieDetail = props => {
   const isDarkMode = useColorScheme() === 'dark';
   const movie = props?.route?.params?.item;

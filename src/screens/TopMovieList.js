@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 
 import {
   SafeAreaView,
@@ -7,29 +7,82 @@ import {
   Text,
   useColorScheme,
   View,
+  TextInput,
+  Alert,
+  FlatList,
 } from 'react-native';
+// import {getMovies} from '../services/ApiService';
+import MovieCard from '../components/MovieCard';
+import {getTopRanked} from '../services/ApiService';
 
 const TopMovieList = props => {
   const isDarkMode = useColorScheme() === 'dark';
+  const [searchText, setSearchText] = useState('');
+  const [allTopMovies, setAllTopMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? '#000000' : '#ffffff',
+    backgroundColor: isDarkMode ? '#FFC30B' : '#FFC30B',
   };
 
+  const callApi = async () => {
+    try {
+      const response = await getTopRanked();
+      if (
+        response?.status === 200 &&
+        response?.data?.results &&
+        response?.data?.results.length > 0
+      ) {
+        setIsLoading(false);
+        console.log(response?.data?.results?.length);
+        setAllTopMovies(response?.data?.results);
+      }
+    } catch (error) {
+      console.log('error', error);
+      Alert.alert('No API Response');
+    }
+  };
+  useEffect(() => {
+    callApi();
+  }, []);
+  const onCardClick = item => {
+    props.navigation.navigate('Details', {item});
+  };
+  const renderEventItem = item => {
+    return (
+      <MovieCard item={item?.item} onPress={() => onCardClick(item?.item)} />
+    );
+  };
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <SafeAreaView style={styles.root}>
+      <View
+        style={{height: 70, justifyContent: 'center', alignItems: 'center'}}>
+        <TextInput
+          placeholder="Search"
+          placeholderTextColor={'black'}
+          onChangeText={text => setSearchText(text)}
+          style={{
+            fontSize: 16,
+            margin: 10,
+            width: '90%',
+            height: 50,
+            backgroundColor: 'white',
+            borderRadius: 10,
+            color: 'black',
+            padding: 10,
+          }}
+        />
+      </View>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? '#000000' : '#ffffff',
-          }}>
-          <Text
-            style={{color: isDarkMode ? '#ffffff' : '#000000'}}
-            onPress={() => props.navigation.navigate('DetailsTopMovie')}>
-            this is app TopMovieList
-          </Text>
+        <View>
+          <FlatList
+            pagingEnabled={true}
+            data={allTopMovies}
+            renderItem={item => renderEventItem(item)}
+            keyExtractor={item => item.id}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -37,9 +90,9 @@ const TopMovieList = props => {
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  root: {
+    flex: 1,
+    backgroundColor: '#FFD300',
   },
 });
 

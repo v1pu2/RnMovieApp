@@ -76,11 +76,6 @@ const MovieList = props => {
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
         <View>
-          {/* <Text
-            style={{color: isDarkMode ? '#ffffff' : '#000000'}}
-            onPress={() => props.navigation.navigate('Details')}>
-            this is app movielist
-          </Text> */}
           <FlatList
             pagingEnabled={true}
             data={allMovies}
@@ -94,10 +89,6 @@ const MovieList = props => {
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
   root: {
     flex: 1,
     backgroundColor: '#FFD300',
